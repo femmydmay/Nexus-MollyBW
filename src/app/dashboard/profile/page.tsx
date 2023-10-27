@@ -12,10 +12,10 @@ import CircularProgressCustom from "@/components/CircularProgressCustom";
 import { MdPhotoCamera } from "react-icons/md";
 import { useAppSelector } from "@/hooks";
 import { User } from "@prisma/client";
-interface IForm extends User{
+interface IForm extends User {
   plan: {
-    title: string
-  }
+    title: string;
+  };
 }
 const Page = () => {
   const formSchema = yup.object().shape({
@@ -41,6 +41,7 @@ const Page = () => {
     reset,
     formState: { errors },
   } = useForm<IForm>({
+    //@ts-ignore
     resolver: yupResolver(formSchema),
     defaultValues: {
       alternate_email: "",
@@ -50,7 +51,7 @@ const Page = () => {
   });
 
   const { user } = useAppSelector((state) => state.userReducers);
-console.log(user);
+  console.log(user);
 
   useEffect(() => {
     if (user) {
@@ -60,7 +61,7 @@ console.log(user);
 
   const onsubmit = handleSubmit(async (data) => {
     try {
-      const{plan , ...user} = data  
+      const { plan, ...user } = data;
       const response = await axios.put("/api/users/user", user);
 
       if (response.status === 200) {
